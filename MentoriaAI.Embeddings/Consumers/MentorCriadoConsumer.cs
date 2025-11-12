@@ -20,7 +20,6 @@ namespace MentoriaAI.Embeddings.Consumers
         {
             var msg = context.Message;
             var texto = $"{msg.Nome}. {msg.Area}. {msg.Tecnologias}. {msg.Descricao}";
-            Console.WriteLine("Funcionou");
             Console.WriteLine($"[Worker] Gerando embedding para {msg.Nome}...");
 
             var embedding = await _openAI.CreateEmbeddingAsync(texto);

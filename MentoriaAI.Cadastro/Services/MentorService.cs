@@ -54,6 +54,19 @@ namespace MentoriaAI.Cadastro.Services
 
             _context.Entry(existente).CurrentValues.SetValues(mentor);
             await _context.SaveChangesAsync();
+
+            var evento = new MentorAtualizadoEvent
+            {
+                Id = mentor.Id,
+                Nome = mentor.Nome,
+                Area = mentor.Area,
+                Tecnologias = mentor.Tecnologias,
+                Descricao = mentor.Descricao
+            };
+
+            await _publishEndpoint.Publish(evento);
+            Console.WriteLine($"[Evento] MentorAtualizadoEvent publicado: {mentor.Nome}");
+
             return true;
         }
 
@@ -64,6 +77,15 @@ namespace MentoriaAI.Cadastro.Services
 
             _context.Mentores.Remove(mentor);
             await _context.SaveChangesAsync();
+
+            var evento = new MentorDeletadoEvent
+            {
+                Id = mentor.Id
+            };
+
+            await _publishEndpoint.Publish(evento);
+            Console.WriteLine($"[Evento] MentorExcluidoEvent publicado: {id}");
+
             return true;
         }
     }

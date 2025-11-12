@@ -17,7 +17,10 @@ builder.Services.AddSingleton<OpenAIEmbeddingService>();
 // Configuração do MassTransit (RabbitMQ)
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<MentorAtualizadoConsumer>();
     x.AddConsumer<MentorCriadoConsumer>();
+    x.AddConsumer<MentorDeletadoConsumer>();
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration["RabbitMQ:Host"], "/", h =>

@@ -41,6 +41,8 @@ namespace MentoriaAI.Cadastro.Controllers
         {
             if (id != mentor.Id) return BadRequest();
 
+            mentor.Id = id;
+
             var atualizado = await _service.AtualizarMentorAsync(mentor);
             return atualizado ? NoContent() : NotFound();
         }

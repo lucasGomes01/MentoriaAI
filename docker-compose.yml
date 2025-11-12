@@ -20,6 +20,22 @@ services:
     ports:
       - "5001:8080"
 
+  busca-semantica:
+    build:
+      context: .
+      dockerfile: ./MentoriaAI.BuscaSemantica/Dockerfile
+    container_name: mentoria-busca-semantica
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=mentoria-postgres-embeddings;Port=5432;Database=mentoria_embeddings;Username=postgres;Password=postgres
+      - OpenAI__ApiKey=${OPENAI_API_KEY}
+    depends_on:
+      - postgres-embeddings
+    ports:
+      - "5002:8080"
+    networks:
+      - mentoria-network
+
   embeddings:
     build:
       context: .
