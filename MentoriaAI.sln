@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.Cadastro", "MentoriaAI.Cadastro\MentoriaAI.Cadastro.csproj", "{E66F2836-CB9C-4966-B0E8-6DBDA262E326}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{7C8A86EC-F051-41D1-96A7-F733255F3F6D}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.Embeddings", "MentoriaAI.Embeddings\MentoriaAI.Embeddings.csproj", "{A2926283-BFA5-4C74-9C37-605AB6EC479F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.Contracts", "MentoriaAI.Contracts\MentoriaAI.Contracts.csproj", "{1C81ED3D-3594-41D1-A93C-3A862D1C006E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E66F2836-CB9C-4966-B0E8-6DBDA262E326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E66F2836-CB9C-4966-B0E8-6DBDA262E326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E66F2836-CB9C-4966-B0E8-6DBDA262E326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E66F2836-CB9C-4966-B0E8-6DBDA262E326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2926283-BFA5-4C74-9C37-605AB6EC479F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2926283-BFA5-4C74-9C37-605AB6EC479F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2926283-BFA5-4C74-9C37-605AB6EC479F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2926283-BFA5-4C74-9C37-605AB6EC479F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C81ED3D-3594-41D1-A93C-3A862D1C006E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C81ED3D-3594-41D1-A93C-3A862D1C006E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C81ED3D-3594-41D1-A93C-3A862D1C006E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C81ED3D-3594-41D1-A93C-3A862D1C006E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ECCEAF4C-FF1B-4E27-862E-E916BAF42F5E}
+	EndGlobalSection
+EndGlobal

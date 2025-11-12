@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  cadastro:
+    build:
+      context: .
+      dockerfile: ./MentoriaAI.Cadastro/Dockerfile
+    container_name: mentoria-cadastro
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-cadastro;Port=5432;Database=mentoria_cadastro;Username=postgres;Password=postgres
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+    depends_on:
+      - postgres-cadastro
+      - rabbitmq
+    networks:
+      - mentoria-network
+    ports:
+      - "5001:8080"
+
+  embeddings:
+    build:
+      context: .
+      dockerfile: ./MentoriaAI.Embeddings/Dockerfile
+    container_name: mentoria-embeddings
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-embeddings;Port=5432;Database=mentoria_embeddings;Username=postgres;Password=postgres
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+      - OpenAI__ApiKey=${OPENAI_API_KEY}
+    depends_on:
+      - postgres-embeddings
+      - rabbitmq
+    networks:
+      - mentoria-network
+
+  postgres-cadastro:
+    image: postgres:15
+    container_name: mentoria-postgres-cadastro
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mentoria_cadastro
+    ports:
+      - "5433:5432"
+    networks:
+      - mentoria-network
+
+  postgres-embeddings:
+    image: pgvector/pgvector:pg15
+    container_name: mentoria-postgres-embeddings
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mentoria_embeddings
+    ports:
+      - "5434:5432"
+    networks:
+      - mentoria-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: mentoria-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - mentoria-network
+
+networks:
+  mentoria-network:
+    driver: bridge
