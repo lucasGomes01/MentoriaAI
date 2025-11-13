@@ -9,9 +9,13 @@ builder.Services.AddDbContext<EmbeddingsContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
         o => o.UseVector()));
 
+// Repositories
 builder.Services.AddScoped<IEmbeddingsRepository, EmbeddingsRepository>();
-builder.Services.AddSingleton<OpenAIEmbeddingService>();
+
+// Services
 builder.Services.AddScoped<BuscaSemanticaService>();
+builder.Services.AddSingleton<OpenAIChatService>();
+builder.Services.AddSingleton<OpenAIEmbeddingService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
