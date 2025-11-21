@@ -54,6 +54,21 @@ services:
     networks:
       - mentoria-network
 
+  gateway:
+    build:
+      context: .
+      dockerfile: ./MentoriaAI.Gateway/Dockerfile
+    container_name: mentoria-gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - cadastro
+      - busca-semantica
+    ports:
+      - "5000:8080"
+    networks:
+      - mentoria-network
+
   postgres-cadastro:
     image: postgres:15
     container_name: mentoria-postgres-cadastro
