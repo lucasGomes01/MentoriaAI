@@ -9,7 +9,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-# Copia o projeto Contracts e Embeddings
 COPY ["MentoriaAI.Contracts/MentoriaAI.Contracts.csproj", "MentoriaAI.Contracts/"]
 COPY ["MentoriaAI.Embeddings/MentoriaAI.Embeddings.csproj", "MentoriaAI.Embeddings/"]
 
