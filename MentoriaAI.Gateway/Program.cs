@@ -11,9 +11,6 @@ var jwksUrl = $"{supabaseUrl}/auth/v1/keys";
 
 var supabaseJwtSecret = builder.Configuration["Supabase:JwtSecret"]
     ?? Environment.GetEnvironmentVariable("SUPABASE__JWT__SECRET");
-Console.WriteLine("supabaseUrl", supabaseUrl);
-Console.WriteLine("jwksUrl", jwksUrl);
-Console.WriteLine("supabaseJwtSecret", supabaseJwtSecret);
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -58,7 +55,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AllowAnonymous", policy =>
+    {
+        policy.RequireAssertion(_ => true);
+    });
+});
 
 builder.Services
     .AddReverseProxy()

@@ -5,7 +5,7 @@ using MentoriaAI.Cadastro.Services;
 namespace MentoriaAI.Cadastro.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class MentorController : ControllerBase
     {
         private readonly MentorService _service;

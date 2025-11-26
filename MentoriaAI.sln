@@ -15,8 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.Embeddings", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.Contracts", "MentoriaAI.Contracts\MentoriaAI.Contracts.csproj", "{1C81ED3D-3594-41D1-A93C-3A862D1C006E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentoriaAI.BuscaSemantica", "MentoriaAI.BuscaSemantica\MentoriaAI.BuscaSemantica.csproj", "{9B3034ED-8D41-48DF-896C-31642B4FA88D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.BuscaSemantica", "MentoriaAI.BuscaSemantica\MentoriaAI.BuscaSemantica.csproj", "{9B3034ED-8D41-48DF-896C-31642B4FA88D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MentoriaAI.Gateway", "MentoriaAI.Gateway\MentoriaAI.Gateway.csproj", "{E97B3607-5E2E-4C0C-B374-AF1554C583B7}"
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +40,18 @@ Global
 		{9B3034ED-8D41-48DF-896C-31642B4FA88D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B3034ED-8D41-48DF-896C-31642B4FA88D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B3034ED-8D41-48DF-896C-31642B4FA88D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E97B3607-5E2E-4C0C-B374-AF1554C583B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E97B3607-5E2E-4C0C-B374-AF1554C583B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E97B3607-5E2E-4C0C-B374-AF1554C583B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E97B3607-5E2E-4C0C-B374-AF1554C583B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71DC0801-EA2B-4BE7-B309-63C88527AC5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71DC0801-EA2B-4BE7-B309-63C88527AC5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71DC0801-EA2B-4BE7-B309-63C88527AC5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71DC0801-EA2B-4BE7-B309-63C88527AC5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90EF912F-FD80-41E2-8AC8-13DAE769B9E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90EF912F-FD80-41E2-8AC8-13DAE769B9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90EF912F-FD80-41E2-8AC8-13DAE769B9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90EF912F-FD80-41E2-8AC8-13DAE769B9E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
