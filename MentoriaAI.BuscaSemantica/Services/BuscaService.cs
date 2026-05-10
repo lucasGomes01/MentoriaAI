@@ -1,4 +1,5 @@
-﻿using MentoriaAI.BuscaSemantica.Repositories;
+﻿using MentoriaAI.BuscaSemantica.DTOs;
+using MentoriaAI.BuscaSemantica.Repositories;
 using System.Text;
 
 namespace MentoriaAI.BuscaSemantica.Services
@@ -21,32 +22,48 @@ namespace MentoriaAI.BuscaSemantica.Services
             _repository = repository;
         }
 
-        public async Task<string> BuscarMentoresAsync(string query, int top = 5)
+        public async Task<BuscaMentoresDto> BuscarMentoresAsync(string query, int top = 5)
         {
-            try
+            var result = new BuscaMentoresDto();
+
+            var embeddingConsulta = await _openAI.CreateEmbeddingAsync(query);
+            var mentores = await _repository.BuscarTopMentoresAsync(embeddingConsulta, top);
+
+            if (!mentores.Any())
             {
-                var embeddingConsulta = await _openAI.CreateEmbeddingAsync(query);
-                var mentores = await _repository.BuscarTopMentoresAsync(embeddingConsulta, top);
-
-                if (!mentores.Any())
-                    return "Nenhum mentor compatível.";
-
-                StringBuilder resumo = new();
-                resumo.AppendLine($"Consulta: {query}");
-                resumo.AppendLine("Mentores encontrados:");
-
-                foreach (var m in mentores)
-                    resumo.AppendLine($"- {m.Nome}: {m.Descricao}");
-
-                var resposta = await _chat.GerarRespostaNaturalAsync(resumo.ToString());
-
-                return resposta;
+                result.Resumo = "Nenhum mentor compatível.";
+                return result;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao gerar resposta: {ex.Message}");
-                return "Ocorreu um erro ao procurar um mentor.";
-            }
+
+            var contexto = new StringBuilder();
+            contexto.AppendLine($"Consulta: {query}");
+            contexto.AppendLine("Mentores encontrados:");
+
+            foreach (var m in mentores)
+                contexto.AppendLine($"- ID:{m.Id} | {m.Nome}: {m.Descricao}");
+
+            var respostaIA = await _chat.GerarRespostaNaturalAsync(contexto.ToString());
+
+            var mentoresSugeridos = mentores
+                .Join(
+                    respostaIA.Mentores,
+                    m => m.Id,
+                    ia => ia.Id,
+                    (m, ia) => new MentorSemanticoDto
+                    {
+                        Id = m.Id,
+                        Nome = m.Nome,
+                        Descricao = m.Descricao,
+                        Motivo = ia.Motivo
+                    }
+                )
+                .Take(2)
+                .ToList();
+
+            result.Resumo = respostaIA.Resumo;
+            result.Mentores = mentoresSugeridos;
+
+            return result;
         }
     }
 }

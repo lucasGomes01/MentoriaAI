@@ -17,9 +17,21 @@ namespace MentoriaAI.Cadastro.Services
             _publishEndpoint = publishEndpoint;
         }
 
-        public async Task<List<Mentor>> ObterTodosAsync()
+        public async Task<List<Mentor>> ObterTodosAsync(string? filtro)
         {
-            return await _context.Mentores.AsNoTracking().ToListAsync();
+            var query = _context.Mentores.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(filtro))
+            {
+                var searchTerm = $"%{filtro.Trim()}%";
+
+                query = query.Where(m =>
+                    EF.Functions.ILike(m.Nome, searchTerm) ||
+                    EF.Functions.ILike(m.Descricao, searchTerm) ||
+                    EF.Functions.ILike(m.Tecnologias, searchTerm));
+            }
+
+            return await query.OrderBy(m => m.Nome).ToListAsync();
         }
 
         public async Task<Mentor?> ObterPorIdAsync(int id)
@@ -85,6 +97,34 @@ namespace MentoriaAI.Cadastro.Services
 
             await _publishEndpoint.Publish(evento);
             Console.WriteLine($"[Evento] MentorExcluidoEvent publicado: {id}");
+
+            return true;
+        }
+        public async Task<bool> DeletarTodosMentoresAsync()
+        {
+            var mentores = await _context.Mentores
+                .AsNoTracking()
+                .Select(m => new { m.Id })
+                .ToListAsync();
+
+            if (!mentores.Any())
+                return false;
+
+            foreach (var mentor in mentores)
+            {
+                var evento = new MentorDeletadoEvent
+                {
+                    Id = mentor.Id
+                };
+
+                await _publishEndpoint.Publish(evento);
+                Console.WriteLine($"[Evento] MentorDeletadoEvent publicado: {mentor.Id}");
+            }
+
+            // delete em massa depois dos eventos
+            await _context.Mentores.ExecuteDeleteAsync();
+
+            Console.WriteLine($"[INFO] Todos os mentores foram removidos. Total: {mentores.Count}");
 
             return true;
         }

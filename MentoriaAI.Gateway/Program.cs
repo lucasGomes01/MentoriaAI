@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -55,13 +56,59 @@ builder.Services.AddCors(options =>
     });
 });
 
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("AllowAnonymous", policy =>
+//    {
+//        policy.RequireAssertion(_ => true);
+//    });
+//});
+
 builder.Services.AddAuthorization(options =>
 {
+    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+
     options.AddPolicy("AllowAnonymous", policy =>
     {
         policy.RequireAssertion(_ => true);
     });
+
+    options.AddPolicy("ReadOnlyOrAuthenticated", policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            var httpContext = context.Resource as HttpContext;
+
+            if (httpContext == null)
+                return false;
+
+            var method = httpContext.Request.Method;
+
+            // Permite GET sem login
+            //if (method == HttpMethods.Get)
+            //{
+            //    return true;
+            //}
+            return true;
+            // Outros métodos exigem autenticação
+            return context.User.Identity?.IsAuthenticated == true;
+        });
+    });
 });
+
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+//        .RequireAuthenticatedUser()
+//        .Build();
+//
+//    options.AddPolicy("AllowAnonymous", policy =>
+//    {
+//        policy.RequireAssertion(_ => true);
+//    });
+//});
 
 builder.Services
     .AddReverseProxy()

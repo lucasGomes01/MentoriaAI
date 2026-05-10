@@ -16,10 +16,17 @@ namespace MentoriaAI.Cadastro.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? filtro)
         {
-            var mentores = await _service.ObterTodosAsync();
+            var mentores = await _service.ObterTodosAsync(filtro);
             return Ok(mentores);
+        }
+        
+        [HttpGet("count")]
+        public async Task<IActionResult> GetCount()
+        {
+            var mentores = await _service.ObterTodosAsync(null);
+            return Ok(mentores.Count());
         }
 
         [HttpGet("{id}")]
@@ -51,6 +58,13 @@ namespace MentoriaAI.Cadastro.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var removido = await _service.DeletarMentorAsync(id);
+            return removido ? NoContent() : NotFound();
+        }
+
+        [HttpDelete("DeletarTodosMentores")]
+        public async Task<IActionResult> DeletarTodosMentores()
+        {
+            var removido = await _service.DeletarTodosMentoresAsync();
             return removido ? NoContent() : NotFound();
         }
     }

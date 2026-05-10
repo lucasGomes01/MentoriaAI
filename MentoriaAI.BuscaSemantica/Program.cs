@@ -23,11 +23,20 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-app.MapControllers();
-app.Run();
+    app.MapControllers();
+    app.Run();
+}
+catch (Exception ex)
+{
+    Console.Error.WriteLine("Fatal error starting application:");
+    Console.Error.WriteLine(ex.ToString());
+    Environment.ExitCode = -1;
+}

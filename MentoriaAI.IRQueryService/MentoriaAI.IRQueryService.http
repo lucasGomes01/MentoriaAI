@@ -1,0 +1,6 @@
+@MentoriaAI.IRQueryService_HostAddress = http://localhost:5241
+
+GET {{MentoriaAI.IRQueryService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

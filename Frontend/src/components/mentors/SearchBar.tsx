@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 interface SearchBarProps {
   query: string;
   setQuery: (val: string) => void;
-  searchType: "ir" | "semantica" | "tradicional";
-  setSearchType: (val: "ir" | "semantica" | "tradicional") => void;
+  searchType: "ir" | "semantica"; // | "tradicional";
+  setSearchType: (val: "ir" | "semantica" ) => void; // | "tradicional"
   searching: boolean;
 }
 
@@ -33,12 +33,12 @@ export function SearchBar({ query, setQuery, searchType, setSearchType, searchin
         </div>
 
         <div className="flex bg-gray-100/80 dark:bg-slate-800/80 p-1 rounded-xl shadow-inner overflow-x-auto hide-scrollbar">
-          <button
+          {/* <button
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${searchType === "tradicional" ? "bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200/50 dark:hover:bg-slate-700/50"}`}
             onClick={() => setSearchType("tradicional")}
           >
             Tradicional
-          </button>
+          </button> */}
           <button
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1 ${searchType === "ir" ? "bg-white dark:bg-slate-700 text-brand-600 dark:text-brand-400 shadow-sm" : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200/50 dark:hover:bg-slate-700/50"}`}
             onClick={() => setSearchType("ir")}

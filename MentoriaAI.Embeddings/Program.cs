@@ -51,5 +51,4 @@ using (var scope = host.Services.CreateScope())
     }
 }
 
-
 host.Run();

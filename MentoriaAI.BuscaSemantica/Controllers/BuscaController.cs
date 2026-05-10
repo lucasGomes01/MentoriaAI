@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
+using MentoriaAI.BuscaSemantica.DTOs;
 using MentoriaAI.BuscaSemantica.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MentoriaAI.BuscaSemantica.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class BuscaController : ControllerBase
     {
         private readonly BuscaSemanticaService _buscaService;
@@ -15,7 +16,7 @@ namespace MentoriaAI.BuscaSemantica.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Buscar([FromQuery] string query)
+        public async Task<ActionResult<BuscaMentoresDto>> Buscar([FromQuery] string query)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return BadRequest("A consulta não pode ser vazia.");

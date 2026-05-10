@@ -54,7 +54,69 @@ services:
     networks:
       - mentoria-network
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: mentoria-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    networks:
+      - mentoria-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: mentoria-kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - mentoria-network
+
+  ir-indexer:
+    build:
+      context: .
+      dockerfile: ./MentoriaAI.IRIndexer/Dockerfile
+    container_name: mentoria-ir-indexer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Elastic__Url=http://elasticsearch:9200
+      - Elastic__Index=mentoria-index
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    networks:
+      - mentoria-network
+
+  ir-query:
+    build:
+      context: .
+      dockerfile: ./MentoriaAI.IRQueryService/Dockerfile
+    container_name: mentoria-ir-query
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Elastic__Url=http://elasticsearch:9200
+      - Elastic__Index=mentoria-index
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "5003:8080"
+    networks:
+      - mentoria-network
 
   frontend:
     build:
@@ -62,9 +124,26 @@ services:
       dockerfile: Dockerfile
     container_name: mentoria-frontend
     ports:
-      - "5173:80"
+      - "8080:80"
     depends_on:
       - gateway
+    profiles: ["prod"]
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: mentoria-frontend-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - gateway
+    profiles: ["dev"]
 
   gateway:
     build:
@@ -78,6 +157,7 @@ services:
     depends_on:
       - cadastro
       - busca-semantica
+      - ir-query
     ports:
       - "5000:8080"
     networks:
