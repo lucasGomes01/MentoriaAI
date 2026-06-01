@@ -34,14 +34,17 @@ The platform is composed of multiple independent services communicating asynchro
 
 ## 📸 Screenshots
 
-### Landing Page
+### Mentors
 
-![Landing Page](images/landing-page.png)
+![Mentors](images/mentoria_ia_list.png)
 
-### Mentor Recommendation
+### Mentor Recommendation RAG (Retrieval-Augmented Generation)
 
-![Mentor Recommendation](images/recommendation.png)
+![Mentor Recommendation RAG (Retrieval-Augmented Generation)](images/mentoria_ia_list_RAG.png)
 
+### Authentication Page
+
+![Authentication Page](images/mentoria_ia_cadastro.png)
 
 ## 🎯 Project Goal
 
